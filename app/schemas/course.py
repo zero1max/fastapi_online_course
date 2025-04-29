@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class CourseBase(BaseModel):
     title: str
@@ -13,3 +14,7 @@ class CourseOut(CourseBase):
 
     class Config:
         from_attributes = True
+
+class CourseUpdate(BaseModel):
+    title: Optional[str] = None
+    description: Optional[str] = None

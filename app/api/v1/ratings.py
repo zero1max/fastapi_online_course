@@ -10,7 +10,7 @@ from app.schemas.rating import RatingCreate, RatingOut
 
 router = APIRouter()
 
-@router.post("/lessons/{lesson_id}/ratings", response_model=RatingOut, status_code=status.HTTP_201_CREATED)
+@router.post("/{lesson_id}", response_model=RatingOut, status_code=status.HTTP_201_CREATED)
 async def create_rating(
     lesson_id: int,
     rating: RatingCreate,
@@ -30,7 +30,7 @@ async def create_rating(
     await db.refresh(db_rating)
     return db_rating
 
-@router.get("/lessons/{lesson_id}/ratings/average")
+@router.get("/{lesson_id}")
 async def get_average_rating(lesson_id: int, db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(func.avg(Rating.stars)).filter(Rating.lesson_id == lesson_id))
     avg_rating = result.scalar() or 0

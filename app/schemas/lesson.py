@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class LessonBase(BaseModel):
     title: str
@@ -14,3 +15,8 @@ class LessonOut(LessonBase):
 
     class Config:
         from_attributes = True
+
+class LessonUpdate(BaseModel):
+    title: Optional[str] = None
+    video_url: Optional[str] = None
+    content: Optional[str] = None

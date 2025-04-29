@@ -9,7 +9,7 @@ from app.schemas.comment import CommentCreate, CommentOut
 
 router = APIRouter()
 
-@router.post("/lessons/{lesson_id}/comments", response_model=CommentOut, status_code=status.HTTP_201_CREATED)
+@router.post("/{lesson_id}", response_model=CommentOut, status_code=status.HTTP_201_CREATED)
 async def create_comment(
     lesson_id: int,
     comment: CommentCreate,
@@ -24,7 +24,7 @@ async def create_comment(
     await db.refresh(db_comment)
     return db_comment
 
-@router.get("/lessons/{lesson_id}/comments", response_model=list[CommentOut])
+@router.get("/{lesson_id}", response_model=list[CommentOut])
 async def list_comments(lesson_id: int, db: AsyncSession = Depends(get_db)):
     comments = await db.execute(select(Comment).filter(Comment.lesson_id == lesson_id))
     return comments.scalars().all()
